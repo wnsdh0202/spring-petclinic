@@ -8,7 +8,7 @@ pipeline {
     environment {
         AWS_CREDENTIAL_NAME = "AWSCredentials"
         REGION = "ap-northeast-2"
-        DOCKER_IMAGE_NAME="project01-test2-spring-petclinic"
+        DOCKER_IMAGE_NAME="project01-test2-petclinic"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
         ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
     }
