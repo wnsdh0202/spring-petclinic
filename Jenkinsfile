@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         jdk "jdk17"
-        maven "M3"
+        maven "m3"
     }
     environment {
         AWS_CREDENTIAL_NAME = "AWSCredentials"
