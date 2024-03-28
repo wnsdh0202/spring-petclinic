@@ -8,7 +8,7 @@ pipeline {
     environment {
         AWS_CREDENTIAL_NAME = "AWSCredentials"
         REGION = "ap-northeast-2"
-        DOCKER_IMAGE_NAME="aws05-spring-petclinic"
+        DOCKER_IMAGE_NAME="project01-test2-spring-petclinic"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
         ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
     }
@@ -76,38 +76,38 @@ pipeline {
                 sh "docker image prune -f --all --filter \"until=1h\""
             }
         }
-        stage('Upload to S3') {
-            steps {
-                echo "Upload to S3"
-                dir("${env.WORKSPACE}") {
-                    sh 'zip -r deploy.zip ./deploy appspec.yml'
-                    withAWS(region:"${REGION}", credentials:"${AWS_CREDENTIAL_NAME}"){
-                      s3Upload(file:"deploy.zip", bucket:"aws05-codedeploy-bucket")
-                    } 
-                    sh 'rm -rf ./deploy.zip'                 
-                }        
-            }
-        }
-        stage('Codedeploy Workload') {
-            steps {
-               echo "create Codedeploy group"   
-                sh '''
-                    aws deploy create-deployment-group \
-                    --application-name aws05-code-deploy \
-                    --auto-scaling-groups aws05-asg \
-                    --deployment-group-name aws05-code-deploy-${BUILD_NUMBER} \
-                    --deployment-config-name CodeDeployDefault.OneAtATime \
-                    --service-role-arn arn:aws:iam::257307634175:role/aws05-codedeploy-service-role
-                    '''
-                echo "Codedeploy Workload"   
-                sh '''
-                    aws deploy create-deployment --application-name aws05-code-deploy \
-                    --deployment-config-name CodeDeployDefault.OneAtATime \
-                    --deployment-group-name aws05-code-deploy-${BUILD_NUMBER} \
-                    --s3-location bucket=aws05-codedeploy-bucket,bundleType=zip,key=deploy.zip
-                    '''
-                    sleep(10) // sleep 10s
-            }
-        }            
-    }
-}
+        // stage('Upload to S3') {
+        //     steps {
+        //         echo "Upload to S3"
+        //         dir("${env.WORKSPACE}") {
+        //             sh 'zip -r deploy.zip ./deploy appspec.yml'
+        //             withAWS(region:"${REGION}", credentials:"${AWS_CREDENTIAL_NAME}"){
+        //               s3Upload(file:"deploy.zip", bucket:"aws05-codedeploy-bucket")
+        //             } 
+        //             sh 'rm -rf ./deploy.zip'                 
+        //         }        
+        //     }
+        // }
+//         stage('Codedeploy Workload') {
+//             steps {
+//                echo "create Codedeploy group"   
+//                 sh '''
+//                     aws deploy create-deployment-group \
+//                     --application-name aws05-code-deploy \
+//                     --auto-scaling-groups aws05-asg \
+//                     --deployment-group-name aws05-code-deploy-${BUILD_NUMBER} \
+//                     --deployment-config-name CodeDeployDefault.OneAtATime \
+//                     --service-role-arn arn:aws:iam::257307634175:role/aws05-codedeploy-service-role
+//                     '''
+//                 echo "Codedeploy Workload"   
+//                 sh '''
+//                     aws deploy create-deployment --application-name aws05-code-deploy \
+//                     --deployment-config-name CodeDeployDefault.OneAtATime \
+//                     --deployment-group-name aws05-code-deploy-${BUILD_NUMBER} \
+//                     --s3-location bucket=aws05-codedeploy-bucket,bundleType=zip,key=deploy.zip
+//                     '''
+//                     sleep(10) // sleep 10s
+//             }
+//         }            
+//     }
+// }
