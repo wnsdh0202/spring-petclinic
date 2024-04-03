@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     tools {
-        jdk "jdk17"
-        maven "m3"
+        jdk "JDK"
+        maven "M3"
     }
     environment {
-        AWS_CREDENTIAL_NAME = "AWSCredentials"
+        AWS_CREDENTIAL_NAME = "AWSkey"
         REGION = "ap-northeast-2"
-        DOCKER_IMAGE_NAME="project01-test2-petclinic"
+        DOCKER_IMAGE_NAME="project01-petclinic"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
         ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
     }
