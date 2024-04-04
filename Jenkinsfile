@@ -87,7 +87,7 @@ pipeline {
                         sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
                         // sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
                         sh "kubectl apply -f output.yaml"
-                        sh "rm output.yaml"
+                        sh "rm -f output.yaml"
                             }
             }            
         }
