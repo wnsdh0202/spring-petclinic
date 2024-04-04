@@ -11,9 +11,9 @@ pipeline {
         DOCKER_IMAGE_NAME= "project01-ecr"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
         ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
-        EKS_JENKINS_CREDENTIAL_ID = "kubectl-deploy-credentials"
-        EKS_CLUSTER_NAME = "project01-cluster"
-        EKS_API = "https://F75E608F5CBDDE8F828B4CCE5F1F5FC2.gr7.ap-northeast-2.eks.amazonaws.com"
+        EKS_JENKINS_CREDENTIAL_ID = 'kubectl-deploy-credentials'
+        EKS_CLUSTER_NAME = 'project01-cluster'
+        EKS_API = 'https://F75E608F5CBDDE8F828B4CCE5F1F5FC2.gr7.ap-northeast-2.eks.amazonaws.com'
     }
     // 위에 크리덴셜 젠킨스에서 설정한거랑 이름 똑같은지 잘 봐야 함. 나 자꾸 마지막 s 빼먹음
     stages {
