@@ -1,0 +1,51 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project01-dep
+spec:
+  selector:
+    matchLabels:
+      app: petclinic
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: spring-petclinic
+        image: kodekloud/webapp-color
+        ports:
+        - containerPort: 8080
+        env:
+        - name: "APP_COLOR"
+          value: "blue"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-three
+spec:
+  selector:
+    app: three
+  ports:
+  - protocol: TCP
+    nodePort: 30100
+    port: 80
+    targetPort: 8080
+  type: NodePort
+
+---
+
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: project01-tgb
+spec:
+  serviceRef:
+    name: service-three
+    port: 80
+  targetGroupARN: arn:aws:elasticloadbalancing:ap-northeast-2:257307634175:targetgroup/project01-eks/45879086b4b91dbb
