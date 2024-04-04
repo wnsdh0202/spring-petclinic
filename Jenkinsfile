@@ -80,16 +80,16 @@ pipeline {
             }
         }
         stage('Deploy to eks') {
-            withKubeconfig([credentialsId: "{EKS_JENKINS_CREDENTIAL_ID}",
-                            serverUrl: "${EKS_API}",
-                            clusterName: "${EKS_CLUSTER_NAME}"]){
-                steps {
-                sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
-                sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
-                sh "kubectl apply -f output.yaml"
-                sh "rm output.yaml"
+            steps {
+                withKubeconfig([credentialsId: "{EKS_JENKINS_CREDENTIAL_ID}",
+                    serverUrl: "${EKS_API}",
+                    clusterName: "${EKS_CLUSTER_NAME}"]){
+                        sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
+                        sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
+                        sh "kubectl apply -f output.yaml"
+                        sh "rm output.yaml"
                             }
-            }
+            }            
         }
             
         // stage('Upload to S3') {
