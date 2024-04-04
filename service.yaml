@@ -15,22 +15,19 @@ spec:
     spec:
       containers:
       - name: spring-petclinic
-        image: kodekloud/webapp-color
+        image: 257307634175.dkr.ecr.ap-northeast-2.amazonaws.com/project01-ecr:BUILD_ID
         ports:
         - containerPort: 8080
-        env:
-        - name: "APP_COLOR"
-          value: "blue"
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-three
+  name: project01-svc
 spec:
   selector:
-    app: three
+    app: petclinic
   ports:
   - protocol: TCP
     nodePort: 30100
@@ -46,6 +43,6 @@ metadata:
   name: project01-tgb
 spec:
   serviceRef:
-    name: service-three
+    name: project01-svc
     port: 80
   targetGroupARN: arn:aws:elasticloadbalancing:ap-northeast-2:257307634175:targetgroup/project01-eks/45879086b4b91dbb
